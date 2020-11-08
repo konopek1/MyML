@@ -24,7 +24,6 @@ class SimpleGradient(Optimizer):
         for i in range(steps):
 
             h = self.h(xs, thetas)
-            print(self.regularization_d(thetas),thetas)
             for j in range(n_features):
                 grad[0, j] = alpha * ((1 / n) * sum((h - ys) * np.c_[xs[:, j]]) + self.regularization_d(thetas)/n)
 
