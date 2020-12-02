@@ -4,12 +4,10 @@ from Utils.Matrix import add_ones_column
 
 
 class SimpleGradient(Optimizer):
-    def __init__(self, h, cost_fn, cost_d_fn, kind_of_regularization=None, delta=1000):
+    def __init__(self, cost_fn, cost_d_fn):
         super().__init__()
         self.cost_fn = cost_fn
         self.cost_d_fn = cost_d_fn
-        self.h = h
-        self.regularization_d, self.regularization_fn = regularization(kind_of_regularization, delta)
 
     def run(self, steps: int, alpha: int, xs: np.ndarray, ys: np.ndarray, thetas=None) -> (np.ndarray, np.ndarray):
         xs = add_ones_column(xs)
@@ -24,18 +22,12 @@ class SimpleGradient(Optimizer):
         for i in range(steps):
 
             for j in range(n_features):
-                grad[0, j] = alpha * (self.cost_d_fn(self.h,xs,ys,thetas,j) + self.regularization_d(thetas)/n)
+                grad[0, j] = alpha * self.cost_d_fn(xs,ys,thetas,j)
 
             thetas -= grad
 
-            j_values[i] = self.cost_fn(self.h,xs, ys, thetas) + self.regularization_fn(thetas)
+            j_values[i] = self.cost_fn(xs, ys, thetas)
 
         return thetas, j_values
 
 
-def regularization(kind, delta):
-    if kind is None:
-        return lambda x: 0, lambda x: 0
-    elif kind == 2:
-        square = np.vectorize(np.square)
-        return lambda thetas: 2 * delta * sum(sum(thetas[:,1:])), lambda thetas: 2 * delta * sum(sum(square(thetas[:,1:])))

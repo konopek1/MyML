@@ -17,6 +17,8 @@ def normalize(m: np.ndarray):
 
 
 def normalize_test(m, means, stds):
+    """ Normalize by given means and stds
+    genreated by normalize()"""
     _, n_features = np.shape(m)
     for feature_index in range(n_features):
         mean = means[feature_index]
