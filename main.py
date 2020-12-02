@@ -16,6 +16,7 @@ logistic_h = lambda x, t: 1 / (1 + np.exp(-linear_h(x, t)))
 # thetas, j_values = linear_regression.run(steps=1500, alpha=0.006)
 # linear_regression.plot()
 
+
 data = np.loadtxt('cardio_train1.csv', delimiter=',', skiprows=1)
 train_data, test_data = data[:10000, :], data[600:, :]
 

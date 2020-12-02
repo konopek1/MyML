@@ -1,11 +1,11 @@
 from Algorithms.Optimizer import Optimizer
-from Regression.CostFunctions import linear_h
+from Regression.CostFunctions import logistic_h
 from Utils.Matrix import add_ones_column
 import numpy as np
 import matplotlib.pyplot as plt
 
 
-class LinearRegression:
+class LogisticRegression:
     def __init__(self, optimizer: Optimizer, xs, ys):
         self.xs = xs
         self.ys = ys
@@ -27,4 +27,13 @@ class LinearRegression:
 
     def predict(self, xs: np.ndarray):
         xs = add_ones_column(xs)
-        return linear_h(xs, self.thetas).item()
+        return logistic_h(xs, self.thetas)
+
+    def test(self, test_xs, test_ys):
+        n = len(test_ys)
+        test_xs = add_ones_column(test_xs)
+        acc = 0
+        for i in range(n):
+            h = self.optimizer.h(test_xs[i, :], self.thetas) > 0.5
+            acc += h == test_ys[i]
+        return acc / n
