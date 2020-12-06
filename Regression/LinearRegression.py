@@ -1,4 +1,5 @@
 from Algorithms.Optimizer import Optimizer
+from PreProcessing.Utils import normalize
 from Regression.CostFunctions import linear_h
 from Utils.Matrix import add_ones_column
 import numpy as np
@@ -7,7 +8,7 @@ import matplotlib.pyplot as plt
 
 class LinearRegression:
     def __init__(self, optimizer: Optimizer, xs, ys):
-        self.xs = xs
+        self.xs = normalize
         self.ys = ys
         self.optimizer = optimizer
         self.thetas = None

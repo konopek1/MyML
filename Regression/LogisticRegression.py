@@ -1,4 +1,5 @@
 from Algorithms.Optimizer import Optimizer
+from PreProcessing.Utils import normalize, normalize_by
 from Regression.CostFunctions import logistic_h
 from Utils.Matrix import add_ones_column
 import numpy as np
@@ -7,7 +8,7 @@ import matplotlib.pyplot as plt
 
 class LogisticRegression:
     def __init__(self, optimizer: Optimizer, xs, ys):
-        self.xs = xs
+        self.xs, self.norms = normalize(xs)
         self.ys = ys
         self.optimizer = optimizer
         self.thetas = None
@@ -26,14 +27,16 @@ class LogisticRegression:
         pass
 
     def predict(self, xs: np.ndarray):
+        xs = normalize_by(xs.T,norms=self.norms)
+
         xs = add_ones_column(xs)
-        return logistic_h(xs, self.thetas)
+
+        return logistic_h(xs, self.thetas).item()
 
     def test(self, test_xs, test_ys):
         n = len(test_ys)
-        test_xs = add_ones_column(test_xs)
         acc = 0
         for i in range(n):
-            h = self.optimizer.h(test_xs[i, :], self.thetas) > 0.5
-            acc += h == test_ys[i]
+            h = self.predict(np.c_[test_xs[i, :]]) > 0.5
+            acc += (h == test_ys[i])
         return acc / n

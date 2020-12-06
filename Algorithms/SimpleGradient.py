@@ -9,25 +9,19 @@ class SimpleGradient(Optimizer):
         self.cost_fn = cost_fn
         self.cost_d_fn = cost_d_fn
 
-    def run(self, steps: int, alpha: int, xs: np.ndarray, ys: np.ndarray, thetas=None) -> (np.ndarray, np.ndarray):
+    def run(self, steps: int, alpha: float, xs: np.ndarray, ys: np.ndarray, thetas=None) -> (np.ndarray, np.ndarray):
         xs = add_ones_column(xs)
         n_features = np.size(xs, 1)
-        n = len(ys)
         j_values: np.ndarray = np.zeros((steps, 1))
-        grad: np.ndarray = np.zeros((1, n_features))
 
         if thetas is None:
             thetas = np.zeros((1, n_features))
 
         for i in range(steps):
+            grad = self.cost_d_fn(xs, ys, thetas).T
 
-            for j in range(n_features):
-                grad[0, j] = alpha * self.cost_d_fn(xs,ys,thetas,j)
-
-            thetas -= grad
+            thetas -= (alpha * grad)
 
             j_values[i] = self.cost_fn(xs, ys, thetas)
 
         return thetas, j_values
-
-

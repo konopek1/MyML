@@ -1,27 +1,23 @@
 import numpy as np
 
 
-def normalize(m: np.ndarray):
-    _, n_features = np.shape(m)
-    stds = []
-    means = []
+def normalize(xs: np.ndarray):
+    _, n_features = np.shape(xs)
+    c_xs = np.copy(xs)
+    norms = np.linalg.norm(c_xs,axis=0)
 
-    for feature_index in range(n_features):
-        std = np.std(m[:, feature_index])
-        stds.append(std)
-        mean = np.mean(m[:, feature_index])
-        means.append(mean)
-        norm = np.vectorize(lambda x: (x - mean) / std)
-        m[:, feature_index] = norm(m[:, feature_index])
-    return means, stds
+    for feauture_index in range(n_features):
+        c_xs[:,feauture_index] /= norms[feauture_index]
+
+    return c_xs,norms
 
 
-def normalize_test(m, means, stds):
-    """ Normalize by given means and stds
-    genreated by normalize()"""
-    _, n_features = np.shape(m)
-    for feature_index in range(n_features):
-        mean = means[feature_index]
-        std = stds[feature_index]
-        norm = np.vectorize(lambda x: (x - mean) / std)
-        m[:, feature_index] = norm(m[:, feature_index])
+def normalize_by(xs: np.ndarray, norms):
+    _, n_features = np.shape(xs)
+    c_xs = np.copy(xs)
+
+    for feauture_index in range(n_features):
+        c_xs[:,feauture_index] /= norms[feauture_index]
+
+    return c_xs
+
