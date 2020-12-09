@@ -21,8 +21,8 @@ linear_h([1, xs[12]], thetas).item()
 print(ys[12])
 
 # We will add regularization
-r_mse = with_regularization(mse, 2, 3)
-r_d_mse = with_regularization_d(d_mse, 2, 3)
+r_mse = with_regularization(mse, 2, 2)
+r_d_mse = with_regularization_d(d_mse, 2, 2)
 optimizer = SimpleGradient(cost_fn=r_mse, cost_d_fn=r_d_mse)
 
 # We can also wrap gradient in LinearRegression Class like this

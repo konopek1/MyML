@@ -1,8 +1,8 @@
-from Algorithms.SimpleGradient import SimpleGradient
-from Regression.LogisticRegression import LogisticRegression
 import numpy as np
 
+from Algorithms.SimpleGradient import SimpleGradient
 from Regression.CostFunctions import maximum_like_hood, d_maximum_like_hood
+from Regression.LogisticRegression import LogisticRegression
 
 # load data id,age,gender,height,weight,ap_hi,ap_lo,cholesterol,gluc,smoke,alco,active,cardio
 data = np.loadtxt('resources/cardio_train.csv', delimiter=',')
@@ -18,7 +18,7 @@ gradient = SimpleGradient(cost_fn=maximum_like_hood, cost_d_fn=d_maximum_like_ho
 # We get our parameters
 lr = LogisticRegression(optimizer=gradient,xs=xs,ys=ys)
 
-thetas, j_vals = lr.run(steps=900000, alpha=8)
+thetas, j_vals = lr.run(steps=9000, alpha=8)
 
 lr.plot()
 

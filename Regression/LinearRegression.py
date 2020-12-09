@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 class LinearRegression:
     def __init__(self, optimizer: Optimizer, xs, ys):
-        self.xs = normalize
+        self.xs = xs
         self.ys = ys
         self.optimizer = optimizer
         self.thetas = None
