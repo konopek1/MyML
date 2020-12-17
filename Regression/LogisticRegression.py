@@ -1,14 +1,15 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
 from Algorithms.Optimizer import Optimizer
-from PreProcessing.Utils import normalize, normalize_by
+from PreProcessing.Normalize import normalize_by
 from Regression.CostFunctions import logistic_h
 from Utils.Matrix import add_ones_column
-import numpy as np
-import matplotlib.pyplot as plt
 
 
 class LogisticRegression:
     def __init__(self, optimizer: Optimizer, xs, ys):
-        self.xs, self.norms = normalize(xs)
+        self.xs = xs
         self.ys = ys
         self.optimizer = optimizer
         self.thetas = None
@@ -26,8 +27,9 @@ class LogisticRegression:
     def describe(self):
         pass
 
-    def predict(self, xs: np.ndarray):
-        xs = normalize_by(xs.T,norms=self.norms)
+    def predict(self, xs: np.ndarray, norms=None):
+        if norms is not None:
+            xs = normalize_by(xs.T, norms=self.norms)
 
         xs = add_ones_column(xs)
 

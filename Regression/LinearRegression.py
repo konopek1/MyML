@@ -1,9 +1,10 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
 from Algorithms.Optimizer import Optimizer
-from PreProcessing.Utils import normalize
+from PreProcessing.Normalize import normalize_by
 from Regression.CostFunctions import linear_h
 from Utils.Matrix import add_ones_column
-import numpy as np
-import matplotlib.pyplot as plt
 
 
 class LinearRegression:
@@ -26,6 +27,9 @@ class LinearRegression:
     def describe(self):
         pass
 
-    def predict(self, xs: np.ndarray):
+    def predict(self, xs: np.ndarray, norms=None):
+        if norms is not None:
+            xs = normalize_by(xs.T, norms=self.norms)
+
         xs = add_ones_column(xs)
         return linear_h(xs, self.thetas).item()
