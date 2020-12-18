@@ -8,7 +8,7 @@ from Utils.Matrix import add_ones_column
 
 
 class LinearRegression:
-    def __init__(self, optimizer: Optimizer, xs, ys):
+    def __init__(self, *, optimizer: Optimizer = None, xs=None, ys=None):
         self.xs = xs
         self.ys = ys
         self.optimizer = optimizer

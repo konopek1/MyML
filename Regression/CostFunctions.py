@@ -46,5 +46,5 @@ def d_maximum_like_hood(xs, ys, thetas):
     n = xs.shape[0]
 
     gradient = np.dot(xs.T, (h - ys))
-
+    # TODO shouldnt n be removed?
     return gradient / n

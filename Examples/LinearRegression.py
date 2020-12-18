@@ -1,8 +1,9 @@
+import numpy as np
+
 from Algorithms.SimpleGradient import SimpleGradient
+from Regression.CostFunctions import d_mse, mse, linear_h
 from Regression.LinearRegression import LinearRegression
 from Regression.Regularization import with_regularization_d, with_regularization
-from Regression.CostFunctions import d_mse, mse, linear_h
-import numpy as np
 
 # load data
 data = np.loadtxt('resources/ex1data1.txt', delimiter=',')
@@ -26,7 +27,7 @@ r_d_mse = with_regularization_d(d_mse, 2, 2)
 optimizer = SimpleGradient(cost_fn=r_mse, cost_d_fn=r_d_mse)
 
 # We can also wrap gradient in LinearRegression Class like this
-lr = LinearRegression(optimizer, xs=xs, ys=ys)
+lr = LinearRegression(optimizer=optimizer, xs=xs, ys=ys)
 
 # Just like gradient.run
 thetas, j_values = lr.run(steps=1500, alpha=0.01)
