@@ -1,12 +1,19 @@
 import numpy as np
 
 
-def PCA(input: np.ndarray, dims) -> np.ndarray:
-    cor = COR(input)
-    eigen_vals, eigen_vecs = np.linalg.eig(cor)
-    eigen_vecs = sort_eigen(eigen_vals, eigen_vecs, dims=dims)
+class PcaScaler:
+    def __init__(self):
+        self.eigen_ves = None
 
-    return input @ eigen_vecs.T
+    def fit(self, input, dims):
+        cor = COR(input)
+        eigen_vals, eigen_vecs = np.linalg.eigh(cor)
+        self.eigen_vecs = sort_eigen(eigen_vals, eigen_vecs, dims=dims)
+
+        return (input @ eigen_vecs.T).astype('float64')
+
+    def transform(self, input):
+        return (input @ self.eigen_vecs.T).astype('float64')
 
 
 def sort_eigen(eigen_vals, eigen_vecs, dims) -> np.ndarray:

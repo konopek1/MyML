@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from Algorithms.Optimizer import Optimizer
-from PreProcessing.Normalize import normalize_by
 from Regression.CostFunctions import logistic_h
 from Utils.Matrix import add_ones_column
 
@@ -27,18 +26,14 @@ class LogisticRegression:
     def describe(self):
         pass
 
-    def predict(self, xs: np.ndarray, norms=None):
-        if norms is not None:
-            xs = normalize_by(xs.T, norms=self.norms)
-
-        xs = add_ones_column(xs)
-
-        return logistic_h(xs, self.thetas).item()
+    def predict(self, xs: np.ndarray):
+        return logistic_h(self.thetas, xs.T).item()
 
     def test(self, test_xs, test_ys):
         n = len(test_ys)
         acc = 0
+        test_xs = add_ones_column(test_xs)
         for i in range(n):
             h = self.predict(np.c_[test_xs[i, :]]) > 0.5
-            acc += (h == test_ys[i])
+            acc += (h == test_ys[i].item())
         return acc / n

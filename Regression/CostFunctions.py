@@ -43,8 +43,8 @@ def maximum_like_hood(xs, ys, thetas):
 
 def d_maximum_like_hood(xs, ys, thetas):
     h = logistic_h(xs, thetas)
-    n = xs.shape[0]
+    # n = xs.shape[0]
 
     gradient = np.dot(xs.T, (h - ys))
     # TODO shouldnt n be removed?
-    return gradient / n
+    return gradient
