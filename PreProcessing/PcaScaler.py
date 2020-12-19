@@ -6,7 +6,7 @@ class PcaScaler:
         self.eigen_ves = None
 
     def fit(self, input, dims):
-        cor = COR(input)
+        cor = COV(input)
         eigen_vals, eigen_vecs = np.linalg.eigh(cor)
         self.eigen_vecs = sort_eigen(eigen_vals, eigen_vecs, dims=dims)
 
@@ -17,14 +17,12 @@ class PcaScaler:
 
 
 def sort_eigen(eigen_vals, eigen_vecs, dims) -> np.ndarray:
-    indexed_vals = enumerate(eigen_vals)
-    sorted_vals = sorted(indexed_vals, key=lambda val: val[1], reverse=True)
-    choosen_indexes = list(map(lambda x: x[0], sorted_vals))[0:dims]
+    idx = np.argsort(eigen_vals)[::-1]
 
-    return eigen_vecs[choosen_indexes, :]
+    return eigen_vecs[idx[:dims], :]
 
 
-def COR(input: np.ndarray) -> np.ndarray:
+def COV(input: np.ndarray) -> np.ndarray:
     rows, cols = np.shape(input)
     mean = np.mean(input, 0)
     return np.dot(input.T, (input - mean)) / cols
