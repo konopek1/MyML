@@ -21,22 +21,22 @@ class Centroid(Point):
     def __init__(self, pos: np.ndarray = None, size: Tuple[int, int] = None):
         super().__init__(pos=pos, size=size)
         self.points = []
-        self.old_points = []
+        self.old_pos = None
 
     def clear(self):
-        self.old_points = self.points
         self.points = []
 
     def add_point(self, point: Point):
         self.points.append(point)
 
     def move(self):
+        self.old_pos = self.pos
         np_points = np.array(list(map(lambda point: point.pos, self.points)))
         if np_points.size != 0:
             self.pos = [np.average(np_points[:, column]) for column in range(np.shape(np_points)[1])]
 
     def has_not_changed(self):
-        return self.points == self.old_points
+        return np.array_equal(self.pos, self.old_pos)
 
     @classmethod
     def from_point(cls, point: Point):

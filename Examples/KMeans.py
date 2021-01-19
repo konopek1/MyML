@@ -5,9 +5,14 @@ from Clustering.KMeans import Point, KMean
 from Clustering.SmartCentroids import smart_centroids
 
 points = [Point(size=(1, 2)) for _ in range(0, 100)]
-centroids = smart_centroids(points, 3)
+centroids = smart_centroids(points, 10)
 
-kmean_result = KMean(centroids, points, 20).run()
+centroids_raw = np.array([centroid.pos for centroid in centroids])
+
+kmean_result = KMean(centroids, points, 200).run()
+
+print(kmean_result)
+centroids = kmean_result['centroids']
 
 for centroid in centroids:
     # some clusters may be empty

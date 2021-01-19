@@ -30,7 +30,7 @@ class KMean:
             raise Success("Maximum iter exceeded")
 
     def optimum_reached(self):
-        if all(map(lambda x: x.has_not_changed, self.centroids)):
+        if all(map(lambda x: x.has_not_changed(), self.centroids)):
             raise Success("Optimum reached")
 
     def run(self):
@@ -40,8 +40,7 @@ class KMean:
                 self.max_iter_exceeded()
                 self.optimum_reached()
         except Success as success:
-            print(f"KMeans finished, cause : {success}")
-            return self.centroids
+            return {'centroids': self.centroids, 'why': str(success), 'iter': self.current_step}
 
 
 class Success(Exception):
