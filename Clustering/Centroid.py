@@ -32,7 +32,13 @@ class Centroid(Point):
 
     def move(self):
         np_points = np.array(list(map(lambda point: point.pos, self.points)))
-        self.pos = [np.average(np_points[:, column]) for column in range(np.shape(np_points)[1])]
+        if np_points.size != 0:
+            self.pos = [np.average(np_points[:, column]) for column in range(np.shape(np_points)[1])]
 
     def has_not_changed(self):
         return self.points == self.old_points
+
+    @classmethod
+    def from_point(cls, point: Point):
+        new_centroid = cls(pos=point.pos)
+        return new_centroid
